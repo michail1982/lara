@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        View::composer('layouts.bootstrap', function ($view) {
+            //
+            $pages = collect(scandir(resource_path('views/page')))
+            ->filter(function($file){
+                return strpos($file, '.blade.php') !== false;
+            })->map(function($file){
+                return str_replace('.blade.php','',$file);
+            });
+            $view->with('pages', $pages);
+        });
     }
 
     /**

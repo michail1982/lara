@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
+Route::get('page/{page}', 'PageController@showPage')->name('page');
+Route::get('search', 'SearchController@showSearchResults')->name('search');
